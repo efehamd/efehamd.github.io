@@ -3,705 +3,764 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Osman Efe Hamdioğlu - Computer Engineer</title>
+    <title>Osman Efe Hamdioğlu</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #070b14;
+            --bg2: #0d1220;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.18);
+            --text: #e8eaf0;
+            --text-muted: rgba(232,234,240,0.45);
+            --text-dim: rgba(232,234,240,0.25);
+            --accent: #6c8cff;
+            --accent2: #a78bfa;
+            --glow: rgba(108,140,255,0.15);
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background: #000;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
             line-height: 1.6;
+            min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        .intro {
+
+        /* Ambient background gradient */
+        body::before {
+            content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            animation: fadeOut 0.8s ease-out 2.2s forwards;
+            top: -30%;
+            left: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(ellipse, rgba(108,140,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        .intro-text {
-            font-size: 4em;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(ellipse, rgba(167,139,250,0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        .typewriter {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 3px solid #fff;
-            white-space: nowrap;
-            animation: typing 1.5s steps(30) 0.3s forwards, blink 0.75s step-end infinite;
-            max-width: 0;
-        }
-        
-        @keyframes typing {
-            from { max-width: 0; }
-            to { max-width: 100%; }
-        }
-        
-        @keyframes blink {
-            50% { border-color: transparent; }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-        
-        .main-content {
-            opacity: 0;
-            animation: fadeIn 1s ease-in 2.2s forwards;
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        .container {
-            max-width: 1000px;
+
+        .page {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 60px 40px;
-        }
-        
-        header {
-            border-bottom: 3px solid #fff;
-            padding-bottom: 40px;
-            margin-bottom: 60px;
-        }
-        
-        h1 {
-            font-size: 3.5em;
-            font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        
-        .subtitle {
-            font-size: 1.3em;
-            font-weight: 300;
-            opacity: 0.9;
-            margin-bottom: 25px;
-        }
-        
-        .contact {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            font-size: 0.95em;
-            margin-top: 20px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .contact a {
-            color: #fff;
-            text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-        
-        .contact a:hover {
-            border-bottom: 2px solid #fff;
-        }
-        
-        .section-btn {
-            background: transparent;
-            color: #fff;
-            border: 3px solid #fff;
-            padding: 18px 35px;
-            font-size: 1.8em;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin: 15px 0;
-            width: 100%;
-            text-align: left;
-            transition: all 0.3s;
+            padding: 48px 32px 80px;
             position: relative;
+            z-index: 1;
         }
-        
-        .section-btn:hover {
-            background: #fff;
-            color: #000;
+
+        /* ── BENTO GRID ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 14px;
         }
-        
-        .section-btn:after {
-            content: "▼";
-            position: absolute;
-            right: 25px;
-            transition: transform 0.3s;
-        }
-        
-        .section-btn.active:after {
-            transform: rotate(180deg);
-        }
-        
-        .section-content {
-            max-height: 0;
+
+        /* ── CARD BASE ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px;
+            position: relative;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            padding: 0 20px;
+            transition: border-color 0.3s, transform 0.15s, box-shadow 0.3s;
+            cursor: default;
+            /* 3d perspective base */
+            transform-style: preserve-3d;
+            will-change: transform;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        
-        .section-content.active {
-            max-height: 5000px;
-            padding: 30px 20px;
-            transition: max-height 0.6s ease-in;
-        }
-        
-        h3 {
-            font-size: 1.4em;
-            font-weight: 800;
-            margin-top: 30px;
-            margin-bottom: 8px;
-        }
-        
-        .job-title {
-            font-size: 1.2em;
-            font-weight: 700;
-            margin-bottom: 5px;
-            margin-top: 25px;
-        }
-        
-        .company {
-            font-weight: 600;
-            opacity: 0.8;
-            margin-bottom: 12px;
-            font-size: 0.95em;
-        }
-        
-        .objective {
-            font-size: 1.05em;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-        
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        ul li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-            line-height: 1.6;
-        }
-        
-        ul li:before {
-            content: "■";
+
+        /* Cursor light layer */
+        .card::before {
+            content: '';
             position: absolute;
-            left: 0;
-            font-weight: 900;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle 220px at var(--mx, 50%) var(--my, 50%),
+                rgba(108,140,255,0.13) 0%,
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+
+        .card:hover::before { opacity: 1; }
+        .card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(108,140,255,0.08);
         }
-        
-        .skill-category {
-            padding: 25px;
-            border: 2px solid #fff;
-            background: #111;
-            transition: all 0.3s;
+
+        .card > * { position: relative; z-index: 1; }
+
+        /* Sheen edge glow on hover */
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 0;
         }
-        
-        .skill-category:hover {
-            background: #1a1a1a;
-            transform: translateY(-5px);
+        .card:hover::after { opacity: 1; }
+
+        /* ── GRID SPANS ── */
+        .col-12 { grid-column: span 12; }
+        .col-8  { grid-column: span 8; }
+        .col-7  { grid-column: span 7; }
+        .col-6  { grid-column: span 6; }
+        .col-5  { grid-column: span 5; }
+        .col-4  { grid-column: span 4; }
+        .col-3  { grid-column: span 3; }
+
+        /* ── HERO CARD ── */
+        .hero-card {
+            padding: 40px 44px;
+            background: linear-gradient(135deg, rgba(108,140,255,0.07) 0%, rgba(167,139,250,0.04) 100%);
         }
-        
-        .skill-category h4 {
+
+        .hero-card .name {
+            font-size: clamp(2em, 4vw, 3em);
             font-weight: 800;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.6));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .skill-category p {
-            line-height: 1.8;
+
+        .hero-card .role {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            margin-bottom: 28px;
         }
-        
-        .interests {
+
+        .hero-card .role span {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 10px;
         }
-        
-        .interest-tag {
-            padding: 12px 24px;
-            border: 2px solid #fff;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        
-        .interest-tag:hover {
-            background: #fff;
-            color: #000;
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 30px auto;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            background: #111;
-            border: 2px solid #fff;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            font-size: 1em;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            background: #1a1a1a;
-            border-color: #fff;
-        }
-        
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background: transparent;
-            color: #fff;
-            border: 3px solid #fff;
-            padding: 15px 50px;
-            font-size: 1.1em;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        
-        .submit-btn:hover {
-            background: #fff;
-            color: #000;
-        }
-        
-        .contact-info-box {
-            background: #111;
-            border: 2px solid #fff;
-            padding: 30px;
-            margin-top: 30px;
-        }
-        
-        .contact-info-box h4 {
-            font-size: 1.3em;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        .contact-detail {
-            display: flex;
+
+        .chip {
+            display: inline-flex;
             align-items: center;
-            gap: 15px;
-            margin: 15px 0;
-            font-size: 1.05em;
-        }
-        
-        .contact-detail a {
-            color: #fff;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-size: 0.8em;
+            font-weight: 500;
+            color: var(--text-muted);
             text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
         }
-        
-        .contact-detail a:hover {
-            border-bottom: 2px solid #fff;
+        .chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(108,140,255,0.08);
         }
-        
-        .timeline {
-            position: relative;
-            padding-left: 40px;
-            border-left: 3px solid #fff;
-            margin-top: 20px;
-        }
-        
-        .timeline-item {
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .timeline-item:before {
-            content: "●";
-            position: absolute;
-            left: -47px;
-            font-size: 1.5em;
-            background: #000;
-            padding: 0 5px;
-        }
-        
-        .success-message {
-            background: #fff;
-            color: #000;
-            padding: 20px;
-            text-align: center;
+
+        /* ── SECTION LABEL ── */
+        .label {
+            font-size: 0.68em;
             font-weight: 700;
-            margin-top: 20px;
-            display: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            margin-bottom: 18px;
         }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-            }
-            
-            .intro-text {
-                font-size: 2em;
-            }
-            
-            .container {
-                padding: 40px 20px;
-            }
-            
-            .section-btn {
-                font-size: 1.4em;
-                padding: 15px 25px;
-            }
-            
-            .contact {
-                grid-template-columns: 1fr;
-            }
+
+        /* ── EXPERIENCE ── */
+        .exp-item { margin-bottom: 26px; }
+        .exp-item:last-child { margin-bottom: 0; }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .exp-title {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .exp-date {
+            font-size: 0.75em;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .exp-company {
+            font-size: 0.8em;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .exp-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .exp-item ul li {
+            font-size: 0.82em;
+            color: var(--text-muted);
+            padding: 3px 0 3px 14px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .exp-item ul li::before {
+            content: '·';
+            position: absolute;
+            left: 2px;
+            color: var(--text-dim);
+            font-size: 1.2em;
+            line-height: 1.2;
+        }
+
+        /* ── SKILLS ── */
+        .skill-row { margin-bottom: 14px; }
+        .skill-row:last-child { margin-bottom: 0; }
+
+        .skill-name {
+            font-size: 0.72em;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            padding: 4px 11px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.78em;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.03);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .skill-tag:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ── PROJECTS ── */
+        .project-name {
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .project-stack {
+            font-size: 0.72em;
+            color: var(--accent2);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .project-desc {
+            font-size: 0.82em;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 0.78em;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(108,140,255,0.3);
+            transition: border-color 0.2s;
+        }
+        .project-link:hover { border-bottom-color: var(--accent); }
+
+        /* ── EDUCATION CARD ── */
+        .edu-uni {
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .edu-degree {
+            font-size: 0.82em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .edu-date {
+            font-size: 0.75em;
+            color: var(--text-dim);
+        }
+
+        /* ── STAT CARD ── */
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 130px;
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.78em;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ── LANGUAGE CARD ── */
+        .lang-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .lang-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .lang-item:first-child { padding-top: 0; }
+
+        .lang-name { font-size: 0.9em; font-weight: 600; }
+        .lang-level {
+            font-size: 0.75em;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        /* ── INTEREST TAGS ── */
+        .int-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .int-tag {
+            padding: 7px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.8em;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.02);
+            transition: all 0.2s;
+        }
+        .int-tag:hover {
+            border-color: var(--accent2);
+            color: var(--accent2);
+            background: rgba(167,139,250,0.08);
+        }
+
+        /* ── OBJECTIVE CARD ── */
+        .objective-text {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            line-height: 1.75;
+        }
+
+        /* ── AVAILABLE BADGE ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(74,222,128,0.1);
+            border: 1px solid rgba(74,222,128,0.2);
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #4ade80;
+            margin-bottom: 20px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ── DIVIDER ── */
+        hr.divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 18px 0;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .col-8 { grid-column: span 12; }
+            .col-7 { grid-column: span 12; }
+            .col-5 { grid-column: span 12; }
+            .col-4 { grid-column: span 6; }
+            .col-3 { grid-column: span 6; }
+        }
+
+        @media (max-width: 600px) {
+            .page { padding: 24px 16px 60px; }
+            .grid { gap: 10px; }
+            .col-4, .col-3, .col-6 { grid-column: span 12; }
+            .hero-card { padding: 28px 24px; }
         }
     </style>
 </head>
 <body>
-    <div class="intro">
-        <div class="intro-text">
-            <span class="typewriter">OSMAN EFE HAMDİOĞLU</span>
+<div class="page">
+    <div class="grid">
+
+        <!-- ── HERO ── -->
+        <div class="card hero-card col-8">
+            <div class="badge">
+                <div class="badge-dot"></div>
+                Open to opportunities
+            </div>
+            <div class="name">Osman Efe<br>Hamdioğlu</div>
+            <div class="role">
+                Computer Engineering Student &nbsp;·&nbsp;
+                <span>Cybersecurity</span> &nbsp;&amp;&nbsp;
+                <span>Software Development</span>
+            </div>
+            <div class="contact-links">
+                <a class="chip" href="mailto:220206023@ostimteknik.edu.tr">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    Email
+                </a>
+                <a class="chip" href="https://linkedin.com/in/efehamd" target="_blank">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    LinkedIn
+                </a>
+                <a class="chip" href="https://github.com/efehamd" target="_blank">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    GitHub
+                </a>
+                <a class="chip" href="tel:+905074892589">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.92 17z"/></svg>
+                    +90 507 489 25 89
+                </a>
+                <span class="chip">📍 Ankara, Turkey</span>
+            </div>
         </div>
+
+        <!-- ── STATS ── -->
+        <div class="card col-4" style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
+            <div class="stat-card" style="padding: 24px 20px; border-right: 1px solid var(--border);">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Internships</div>
+            </div>
+            <div class="stat-card" style="padding: 24px 20px;">
+                <div class="stat-number">3+</div>
+                <div class="stat-label">Years coding</div>
+            </div>
+        </div>
+
+        <!-- ── OBJECTIVE ── -->
+        <div class="card col-12">
+            <div class="label">About</div>
+            <p class="objective-text">
+                4th-year Computer Engineering student at Ostim Technical University with hands-on experience across cybersecurity, network engineering, and full-stack development through five internships at leading Turkish tech companies. Passionate about offensive security, penetration testing, and building secure software. Looking to join a team where I can bridge the gap between development and security.
+            </p>
+        </div>
+
+        <!-- ── EXPERIENCE ── -->
+        <div class="card col-7">
+            <div class="label">Experience</div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">Cyber Security Intern</div>
+                    <div class="exp-date">Mar – Apr 2025</div>
+                </div>
+                <div class="exp-company">Akgün Yazılım A.Ş.</div>
+                <ul>
+                    <li>Vulnerability assessments &amp; penetration testing on web apps and internal systems</li>
+                    <li>Documented findings with actionable remediation recommendations</li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">Network Security Engineer Intern</div>
+                    <div class="exp-date">Jan – Feb 2025</div>
+                </div>
+                <div class="exp-company">Forte Bilgi İletişim</div>
+                <ul>
+                    <li>Configured enterprise network appliances and VLAN segmentation</li>
+                    <li>Monitored traffic for threat indicators in defense industry environments</li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">Network Security Intern</div>
+                    <div class="exp-date">Aug 2024</div>
+                </div>
+                <div class="exp-company">Forte Bilgi İletişim</div>
+                <ul>
+                    <li>Firewall rules, IDS/IPS setup, packet analysis (Wireshark, Nmap)</li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">Software Engineer Intern</div>
+                    <div class="exp-date">Jan 2024</div>
+                </div>
+                <div class="exp-company">Forte Bilgi İletişim</div>
+                <ul>
+                    <li>Built RESTful APIs and web features with ASP.NET MVC, C#, SQL Server</li>
+                    <li>Agile sprints, code reviews, and cross-functional collaboration</li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">Test Automation Intern</div>
+                    <div class="exp-date">Sep 2023</div>
+                </div>
+                <div class="exp-company">İnnova Bilişim</div>
+                <ul>
+                    <li>Developed automated test suites for enterprise software regression testing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ── RIGHT COLUMN ── -->
+        <div class="col-5" style="display:flex; flex-direction:column; gap:14px;">
+
+            <!-- Education -->
+            <div class="card">
+                <div class="label">Education</div>
+                <div class="edu-uni">Ostim Technical University</div>
+                <div class="edu-degree">BSc Computer Engineering &nbsp;·&nbsp; Ankara</div>
+                <div class="edu-date">Sep 2022 – Jun 2026 (Expected)</div>
+            </div>
+
+            <!-- Languages -->
+            <div class="card">
+                <div class="label">Languages</div>
+                <div class="lang-item">
+                    <div class="lang-name">Turkish</div>
+                    <div class="lang-level">Native</div>
+                </div>
+                <div class="lang-item">
+                    <div class="lang-name">English</div>
+                    <div class="lang-level">C1 Advanced &nbsp;·&nbsp; YDS 76.25</div>
+                </div>
+            </div>
+
+            <!-- Interests -->
+            <div class="card">
+                <div class="label">Interests</div>
+                <div class="int-tags">
+                    <div class="int-tag">Offensive Security</div>
+                    <div class="int-tag">CTF Competitions</div>
+                    <div class="int-tag">DevSecOps</div>
+                    <div class="int-tag">Cloud Security</div>
+                    <div class="int-tag">Blockchain</div>
+                    <div class="int-tag">Music Production</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── SKILLS ── -->
+        <div class="card col-12">
+            <div class="label">Technical Skills</div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                <div>
+                    <div class="skill-row">
+                        <div class="skill-name">Languages</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">C / C++</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">HTML / CSS</span>
+                            <span class="skill-tag">SQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-name">Frameworks</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">ASP.NET MVC</span>
+                            <span class="skill-tag">React.js</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">Django</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-row">
+                        <div class="skill-name">Security Tools</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Wireshark</span>
+                            <span class="skill-tag">Nmap</span>
+                            <span class="skill-tag">Metasploit</span>
+                            <span class="skill-tag">Burp Suite</span>
+                            <span class="skill-tag">OWASP ZAP</span>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-name">Networking</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">TCP/IP</span>
+                            <span class="skill-tag">VLAN</span>
+                            <span class="skill-tag">Firewalls</span>
+                            <span class="skill-tag">IDS / IPS</span>
+                            <span class="skill-tag">VPN</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-row">
+                        <div class="skill-name">Databases</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">SQL Server</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                    </div>
+                    <div class="skill-row">
+                        <div class="skill-name">Tools & DevOps</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git / GitHub</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Linux</span>
+                            <span class="skill-tag">Windows Server</span>
+                            <span class="skill-tag">VMware</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PROJECTS ── -->
+        <div class="card col-6">
+            <div class="label">Featured Project</div>
+            <div class="project-name">Robb-IT</div>
+            <div class="project-stack">C# · PowerShell · Windows</div>
+            <div class="project-desc">
+                Terminal-based Windows cybersecurity toolkit — malware scanning, real-time network traffic monitoring, firewall IP management, DPI bypass via Cloudflare DoH + TLS fragmentation, and MD5/SHA256 hash &amp; entropy analysis. Distributed as a standalone self-contained .exe.
+            </div>
+            <a class="project-link" href="https://github.com/efehamd/robb-it" target="_blank">View on GitHub →</a>
+        </div>
+
+        <div class="card col-6">
+            <div class="label">Project</div>
+            <div class="project-name">CRUD Web Application</div>
+            <div class="project-stack">ASP.NET MVC · C# · SQL Server</div>
+            <div class="project-desc">
+                Full-stack web application demonstrating end-to-end CRUD operations with a relational SQL Server backend and clean MVC architecture. Built during software engineering internship.
+            </div>
+            <a class="project-link" href="https://github.com/efehamd/Crud-Project" target="_blank">View on GitHub →</a>
+        </div>
+
     </div>
-    
-    <div class="main-content">
-    <div class="container">
-        <header>
-            <h1>Osman Efe<br>Hamdioğlu</h1>
-            <div class="subtitle">Computer Engineering Student | Cybersecurity Enthusiast | Software Developer</div>
-            <div class="contact">
-                <div class="contact-item">📍 Ankara, Türkiye</div>
-                <div class="contact-item">📧 <a href="mailto:220206023@ostimteknik.edu.tr">Email</a></div>
-                <div class="contact-item">📱 +90 507 489 25 89</div>
-                <div class="contact-item">💼 <a href="https://www.linkedin.com/in/efehamd" target="_blank">LinkedIn</a></div>
-                <div class="contact-item">💻 <a href="https://github.com/efehamd" target="_blank">GitHub</a></div>
-                <div class="contact-item">📄 <a href="cv.html">View CV</a></div>
-            </div>
-        </header>
-        
-        <button class="section-btn" onclick="toggleSection('objective')">Career Objective</button>
-        <div id="objective" class="section-content">
-            <p class="objective">
-                I am a 4th-year Computer Engineering student at Ostim Technical University with a deep passion for software technologies, cybersecurity, and network security. Through multiple internship experiences across leading technology companies, I have successfully adapted my academic knowledge to professional environments, gaining hands-on experience in penetration testing, network infrastructure, software development, and test automation.
-            </p>
-            <p class="objective">
-                As an engineer candidate with strong analytical thinking and problem-solving skills, I excel in team-oriented environments while maintaining a results-driven approach. My diverse internship portfolio demonstrates my versatility across different domains of computer engineering, from ASP.NET development to network security implementations.
-            </p>
-            <p class="objective">
-                Post-graduation, I aim to specialize in cybersecurity while pursuing a master's degree to continue my academic and professional development. I am particularly interested in offensive security, threat intelligence, and secure software development practices.
-            </p>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('education')">Education</button>
-        <div id="education" class="section-content">
-            <h3>Ostim Technical University</h3>
-            <div class="company">Bachelor of Science in Computer Engineering</div>
-            <div class="company">September 2022 – June 2026 (Expected) | Currently 4th Year Student</div>
-            <ul>
-                <li>Focused on cybersecurity, network security, and software engineering principles</li>
-                <li>Active participation in university technology clubs and hackathons</li>
-                <li>Maintaining strong academic performance while gaining practical industry experience</li>
-            </ul>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('experience')">Professional Experience</button>
-        <div id="experience" class="section-content">
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="job-title">Cyber Security Intern</div>
-                    <div class="company">Akgün Yazılım A.Ş. | March 2025 – April 2025 | Ankara, Turkey</div>
-                    <ul>
-                        <li>Actively supported cybersecurity operations including vulnerability assessments and penetration testing</li>
-                        <li>Conducted comprehensive security testing on web applications and network infrastructure</li>
-                        <li>Performed detailed system analysis to identify potential security weaknesses</li>
-                        <li>Collaborated with senior security engineers on incident response procedures</li>
-                        <li>Documented security findings and recommended remediation strategies</li>
-                    </ul>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="job-title">Network Security Engineer Intern</div>
-                    <div class="company">Forte Bilgi İletişim Teknolojileri ve Savunma Sanayi A.Ş. | January 2025 – February 2025 | Ankara, Turkey</div>
-                    <ul>
-                        <li>Specialized in network security infrastructure and switch management implementations</li>
-                        <li>Configured and maintained enterprise-level network security appliances</li>
-                        <li>Implemented VLAN segmentation and access control policies</li>
-                        <li>Monitored network traffic patterns to identify anomalies and potential threats</li>
-                        <li>Assisted in designing secure network architectures for defense industry applications</li>
-                    </ul>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="job-title">Network Security Intern</div>
-                    <div class="company">Forte Bilgi İletişim Teknolojileri ve Savunma Sanayi A.Ş. | August 2024 | Ankara, Turkey</div>
-                    <ul>
-                        <li>Gained foundational experience in IP networking and network security protocols</li>
-                        <li>Configured routers and switches for secure enterprise deployments</li>
-                        <li>Implemented firewall rules and intrusion detection systems</li>
-                        <li>Performed network packet analysis using Wireshark and similar tools</li>
-                        <li>Documented network topology and security configurations</li>
-                    </ul>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="job-title">Software Engineer Intern</div>
-                    <div class="company">Forte Bilgi İletişim Teknolojileri ve Savunma Sanayi A.Ş. | January 2024 | Ankara, Turkey</div>
-                    <ul>
-                        <li>Developed web applications using ASP.NET MVC framework and C#</li>
-                        <li>Designed and implemented database schemas using Microsoft SQL Server</li>
-                        <li>Created RESTful APIs for internal business applications</li>
-                        <li>Implemented authentication and authorization mechanisms following security best practices</li>
-                        <li>Collaborated with cross-functional teams using Agile methodologies</li>
-                        <li>Participated in code reviews and learned industry-standard development practices</li>
-                    </ul>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="job-title">Test Automation Intern</div>
-                    <div class="company">İnnova Bilişim | September 2023 | Ankara, Turkey</div>
-                    <ul>
-                        <li>Supported automated testing initiatives for enterprise software products</li>
-                        <li>Developed test scripts using industry-standard automation frameworks</li>
-                        <li>Gained practical experience with software testing tools and methodologies</li>
-                        <li>Participated in test case design and execution for regression testing</li>
-                        <li>Documented test results and reported defects using bug tracking systems</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('skills')">Technical Skills</button>
-        <div id="skills" class="section-content">
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h4>Programming Languages</h4>
-                    <p>Python (Advanced), C/C++ (Intermediate), JavaScript (Intermediate), HTML5/CSS3 (Advanced), SQL (Intermediate)</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Frameworks & Libraries</h4>
-                    <p>ASP.NET MVC, React.js, Node.js, Flask, Django</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Security Tools</h4>
-                    <p>Wireshark, Nmap, Metasploit, Burp Suite, OWASP ZAP</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Development Tools</h4>
-                    <p>Git/GitHub, Docker, Visual Studio, VS Code, Postman</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Operating Systems</h4>
-                    <p>Linux (Ubuntu, Kali), Windows Server, VirtualBox/VMware</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Database Systems</h4>
-                    <p>Microsoft SQL Server, MySQL, PostgreSQL, MongoDB</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Network Technologies</h4>
-                    <p>TCP/IP, VLANs, Firewalls, IDS/IPS, VPN, Network Protocols</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Cybersecurity</h4>
-                    <p>Penetration Testing, Vulnerability Assessment, Network Security, Web Application Security</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Soft Skills</h4>
-                    <p>Problem Solving, Team Collaboration, Analytical Thinking, Documentation, Project Management</p>
-                </div>
-                <div class="skill-category">
-                    <h4>Languages</h4>
-                    <p>Turkish (Native), English (Advanced - CEFR C Level | YDS: 76.25)</p>
-                </div>
-            </div>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('interests')">Professional Interests</button>
-        <div id="interests" class="section-content">
-            <p class="objective">
-                My professional interests align with emerging trends in cybersecurity and software development. I am particularly passionate about:
-            </p>
-            <div class="interests">
-                <div class="interest-tag">Offensive Security</div>
-                <div class="interest-tag">Network Security</div>
-                <div class="interest-tag">Web Application Security</div>
-                <div class="interest-tag">Secure Coding</div>
-                <div class="interest-tag">Open Source Contribution</div>
-                <div class="interest-tag">Cloud Security</div>
-                <div class="interest-tag">AI & Machine Learning</div>
-                <div class="interest-tag">DevSecOps</div>
-                <div class="interest-tag">Blockchain Technology</div>
-            </div>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('hobbies')">Personal Interests</button>
-        <div id="hobbies" class="section-content">
-            <div class="interests">
-                <div class="interest-tag">Music Production</div>
-                <div class="interest-tag">Software Development</div>
-                <div class="interest-tag">Coding Challenges</div>
-                <div class="interest-tag">CTF Competitions</div>
-                <div class="interest-tag">Tech Blogging</div>
-            </div>
-        </div>
-        
-        <button class="section-btn" onclick="toggleSection('contact')">Reach Me</button>
-        <div id="contact" class="section-content">
-            <div class="contact-info-box">
-                <h4>Let's Connect</h4>
-                <p class="objective">
-                    I'm always interested in discussing new opportunities, collaboration on projects, or simply connecting with fellow technology enthusiasts. Feel free to reach out through any of the following channels:
-                </p>
-                <div class="contact-detail">
-                    📧 Email: <a href="mailto:220206023@ostimteknik.edu.tr">220206023@ostimteknik.edu.tr</a>
-                </div>
-                <div class="contact-detail">
-                    💼 LinkedIn: <a href="https://www.linkedin.com/in/efehamd" target="_blank">linkedin.com/in/efehamd</a>
-                </div>
-                <div class="contact-detail">
-                    💻 GitHub: <a href="https://github.com/efehamd" target="_blank">github.com/efehamd</a>
-                </div>
-                <div class="contact-detail">
-                    📱 Phone: +90 507 489 25 89
-                </div>
-            </div>
-            
-            <div class="contact-form">
-                <h4 style="text-align: center; margin-bottom: 30px; font-size: 1.5em; text-transform: uppercase;">Send Me a Message</h4>
-                <form id="contactForm" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                    <div class="success-message" id="successMessage">
-                        Thank you for your message! I'll get back to you soon.
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    
-    <script>
-        function toggleSection(id) {
-            const content = document.getElementById(id);
-            const btn = content.previousElementSibling;
-            
-            // Close all other sections
-            document.querySelectorAll('.section-content').forEach(section => {
-                if (section.id !== id) {
-                    section.classList.remove('active');
-                    section.previousElementSibling.classList.remove('active');
-                }
-            });
-            
-            // Toggle clicked section
-            content.classList.toggle('active');
-            btn.classList.toggle('active');
-        }
-        
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // Create mailto link
-            const mailtoLink = `mailto:220206023@ostimteknik.edu.tr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-            
-            // Open email client
-            window.location.href = mailtoLink;
-            
-            // Show success message
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Reset form
-            document.getElementById('contactForm').reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
-        }
-    </script>
+</div>
+
+<script>
+    // ── TILT + CURSOR LIGHT ──
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const cx = rect.width / 2;
+            const cy = rect.height / 2;
+
+            // Tilt: max ±8deg
+            const rotY = ((x - cx) / cx) * 8;
+            const rotX = -((y - cy) / cy) * 6;
+
+            card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.015,1.015,1.015)`;
+
+            // Cursor light position as % for CSS var
+            const px = (x / rect.width) * 100;
+            const py = (y / rect.height) * 100;
+            card.style.setProperty('--mx', `${px}%`);
+            card.style.setProperty('--my', `${py}%`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+</script>
 </body>
 </html>
