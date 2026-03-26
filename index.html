@@ -467,6 +467,131 @@
             .col-4, .col-3, .col-6 { grid-column: span 12; }
             .hero-card { padding: 28px 24px; }
         }
+
+        /* ── PDF BUTTON ── */
+        .pdf-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.82em;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(108,140,255,0.35);
+            transition: all 0.2s;
+            z-index: 100;
+            letter-spacing: 0.3px;
+        }
+        .pdf-btn:hover {
+            background: #8aa4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108,140,255,0.5);
+        }
+
+        /* ── PRINT / PDF STYLES ── */
+        @media print {
+            @page {
+                size: A4;
+                margin: 14mm 12mm;
+            }
+
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+            body {
+                background: #fff !important;
+                color: #111 !important;
+            }
+            body::before, body::after { display: none; }
+
+            .pdf-btn { display: none; }
+            footer { display: none; }
+
+            .page {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .grid { gap: 8px; }
+
+            .card {
+                background: #f8f8f8 !important;
+                border: 1px solid #ddd !important;
+                border-radius: 10px !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                break-inside: avoid;
+            }
+
+            .card::before, .card::after { display: none; }
+
+            .hero-card {
+                background: #f0f3ff !important;
+            }
+
+            .name {
+                background: none !important;
+                -webkit-text-fill-color: #111 !important;
+                color: #111 !important;
+            }
+
+            .role { color: #555 !important; }
+            .role span { color: #4060cc !important; }
+
+            .label { color: #888 !important; }
+            .exp-title, .edu-uni, .project-name, .lang-name { color: #111 !important; }
+            .exp-company { color: #4060cc !important; }
+            .exp-date, .edu-date, .exp-item ul li, .edu-degree,
+            .project-desc, .objective-text, .stat-label { color: #444 !important; }
+
+            .chip {
+                border-color: #ccc !important;
+                color: #444 !important;
+                background: #f0f0f0 !important;
+            }
+
+            .skill-tag {
+                border-color: #ccc !important;
+                color: #333 !important;
+                background: #f0f0f0 !important;
+            }
+
+            .skill-name { color: #888 !important; }
+
+            .int-tag {
+                border-color: #ccc !important;
+                color: #444 !important;
+                background: #f0f0f0 !important;
+            }
+
+            .stat-number {
+                background: none !important;
+                -webkit-text-fill-color: #111 !important;
+                color: #111 !important;
+            }
+
+            .lang-level { color: #777 !important; }
+            .lang-item { border-bottom-color: #ddd !important; }
+
+            .project-link { color: #4060cc !important; border-bottom-color: #4060cc !important; }
+            .project-stack { color: #7060cc !important; }
+
+            .badge {
+                background: rgba(0,150,80,0.08) !important;
+                border-color: rgba(0,150,80,0.2) !important;
+                color: #008040 !important;
+            }
+            .badge-dot { background: #008040 !important; animation: none !important; }
+
+            hr.divider { border-top-color: #ddd !important; }
+        }
     </style>
 </head>
 <body>
@@ -743,6 +868,15 @@
 <footer style="text-align:center; padding: 32px 0 48px; color: var(--text-dim); font-size: 0.8em; position: relative; z-index: 1;">
     made by efehamdioglu with love ♥
 </footer>
+
+<button class="pdf-btn" onclick="window.print()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Download CV
+</button>
 
 <script>
     // ── TILT + CURSOR LIGHT ──
