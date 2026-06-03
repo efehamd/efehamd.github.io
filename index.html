@@ -1125,8 +1125,7 @@
 
     (function () {
         const saved = localStorage.getItem('theme');
-        if (saved) { applyTheme(saved); return; }
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) applyTheme('light');
+        if (saved) applyTheme(saved);
     })();
 
     // ── TILT + CURSOR LIGHT ──
