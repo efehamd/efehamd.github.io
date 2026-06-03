@@ -559,25 +559,23 @@
         /* ── LANG BUTTON ── */
         .lang-btn {
             position: fixed;
-            top: 28px;
-            left: 76px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            top: 72px;
+            left: 32px;
             cursor: pointer;
             z-index: 100;
             background: none;
             border: none;
             padding: 0;
-            font-size: 0.75em;
+            font-size: 0.72em;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            transition: color 0.2s, transform 0.2s;
         }
-        .lang-btn span { transition: color 0.2s, opacity 0.2s; }
-        .lang-btn .lang-active { color: var(--accent); opacity: 1; }
-        .lang-btn .lang-inactive { color: var(--text-dim); opacity: 0.6; }
-        .lang-btn .lang-sep { color: var(--text-dim); opacity: 0.3; }
-        .lang-btn:hover .lang-inactive { opacity: 1; color: var(--text-muted); }
+        .lang-btn:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
 
         /* ── THEME ICON ── */
         .theme-icon {
@@ -622,7 +620,7 @@
                 box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             }
             .theme-icon:hover { transform: none; }
-            .lang-btn { top: auto; left: 64px; bottom: 24px; }
+            .lang-btn { top: auto; left: 16px; bottom: 64px; }
         }
 
         /* ── PRINT CV (hidden on screen) ── */
@@ -1134,9 +1132,7 @@
 </div>
 
 <button class="lang-btn" id="lang-toggle" onclick="toggleLang()" title="Switch language">
-    <span id="lang-en" class="lang-active">EN</span>
-    <span class="lang-sep">|</span>
-    <span id="lang-tr" class="lang-inactive">TR</span>
+    <span id="lang-label">TUR</span>
 </button>
 
 <button class="theme-icon" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
@@ -1298,8 +1294,7 @@
             const key = el.dataset.i18n;
             if (t[lang][key] !== undefined) el.innerHTML = t[lang][key];
         });
-        document.getElementById('lang-en').className = lang === 'en' ? 'lang-active' : 'lang-inactive';
-        document.getElementById('lang-tr').className = lang === 'tr' ? 'lang-active' : 'lang-inactive';
+        document.getElementById('lang-label').textContent = lang === 'en' ? 'TUR' : 'ENG';
         localStorage.setItem('lang', lang);
     }
 
