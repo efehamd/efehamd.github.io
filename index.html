@@ -556,41 +556,35 @@
             box-shadow: 0 8px 28px rgba(0,0,0,0.3);
         }
 
-        /* ── PIXEL CURSOR ── */
+        /* ── CUSTOM CURSOR ── */
         @media (hover: hover) and (pointer: fine) {
             * { cursor: none !important; }
         }
-        #px-cursor {
+        #cursor-dot {
             position: fixed;
             pointer-events: none;
             z-index: 99999;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 3px;
-            background: white;
-            mix-blend-mode: difference;
+            top: 0; left: 0;
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
             will-change: transform;
             opacity: 0;
-            transition: opacity 0.15s;
-            box-shadow:
-                0px  3px 0 0 white,
-                0px  6px 0 0 white,
-                0px  9px 0 0 white,
-                0px 12px 0 0 white,
-                0px 15px 0 0 white,
-                0px 18px 0 0 white,
-                0px 21px 0 0 white,
-                3px  3px 0 0 white,
-                6px  6px 0 0 white,
-                9px  9px 0 0 white,
-               12px 12px 0 0 white,
-               15px 15px 0 0 white,
-               12px 18px 0 0 white,
-               15px 18px 0 0 white,
-               18px 18px 0 0 white,
-                9px 21px 0 0 white,
-               18px 21px 0 0 white;
+            transition: opacity 0.15s, background 0.3s, width 0.2s, height 0.2s;
+        }
+        #cursor-ring {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99998;
+            top: 0; left: 0;
+            width: 30px; height: 30px;
+            border: 1.5px solid var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.2s, width 0.25s ease, height 0.25s ease, border-color 0.3s;
         }
 
         /* ── LANG BUTTON ── */
@@ -1182,7 +1176,8 @@
 
 </div>
 
-<div id="px-cursor"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <button class="lang-btn" id="lang-toggle" onclick="toggleLang()" title="Switch language">
     <span id="lang-label">TUR</span>
@@ -1388,15 +1383,47 @@
         if (savedLang) applyLang(savedLang);
     })();
 
-    // ── PIXEL CURSOR ──
+    // ── CUSTOM CURSOR ──
     (function() {
         if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-        const el = document.getElementById('px-cursor');
+        const dot  = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let mx = -100, my = -100, rx = -100, ry = -100, visible = false;
+
         document.addEventListener('mousemove', e => {
-            el.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
-            el.style.opacity = '1';
+            mx = e.clientX; my = e.clientY;
+            dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+            if (!visible) {
+                rx = mx; ry = my;
+                dot.style.opacity  = '1';
+                ring.style.opacity = '0.55';
+                visible = true;
+            }
         });
-        document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+        document.addEventListener('mouseleave', () => {
+            dot.style.opacity = ring.style.opacity = '0';
+            visible = false;
+        });
+
+        document.querySelectorAll('a, button, .card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = ring.style.height = '50px';
+                ring.style.opacity = '0.3';
+                dot.style.width = dot.style.height = '8px';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = ring.style.height = '30px';
+                ring.style.opacity = visible ? '0.55' : '0';
+                dot.style.width = dot.style.height = '6px';
+            });
+        });
+
+        (function animate() {
+            rx += (mx - rx) * 0.1;
+            ry += (my - ry) * 0.1;
+            ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+            requestAnimationFrame(animate);
+        })();
     })();
 
     // ── TILT + CURSOR LIGHT ──
