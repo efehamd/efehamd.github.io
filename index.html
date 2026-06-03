@@ -502,10 +502,11 @@
             .hero-card { padding: 28px 24px; }
         }
 
-        /* ── FIXED BUTTONS ── */
-        .pdf-btn, .theme-btn {
+        /* ── PDF BUTTON ── */
+        .pdf-btn {
             position: fixed;
             bottom: 32px;
+            right: 32px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -521,10 +522,6 @@
             letter-spacing: 0.4px;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-        }
-
-        .pdf-btn {
-            right: 32px;
             background: var(--pdf-btn-bg);
             color: var(--pdf-btn-color);
         }
@@ -536,22 +533,36 @@
             box-shadow: 0 8px 28px rgba(0,0,0,0.3);
         }
 
-        .theme-btn {
-            right: 160px;
-            background: var(--pdf-btn-bg);
-            color: var(--pdf-btn-color);
+        /* ── THEME ICON ── */
+        .theme-icon {
+            position: fixed;
+            top: 28px;
+            left: 32px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            color: var(--text-dim);
+            transition: color 0.2s, transform 0.3s;
+            background: none;
+            border: none;
+            padding: 0;
         }
-        .theme-btn:hover {
-            background: var(--pdf-btn-bg-hover);
-            border-color: var(--pdf-btn-border-hover);
-            color: var(--pdf-btn-color-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+        .theme-icon:hover {
+            color: var(--accent);
+            transform: rotate(20deg) scale(1.15);
+        }
+        .theme-icon svg {
+            display: block;
+            transition: opacity 0.2s, transform 0.3s;
         }
 
         @media (max-width: 600px) {
             .pdf-btn { right: 16px; bottom: 16px; padding: 9px 14px; }
-            .theme-btn { right: 110px; bottom: 16px; padding: 9px 14px; }
+            .theme-icon { top: 16px; left: 16px; }
         }
 
         /* ── PRINT CV (hidden on screen) ── */
@@ -565,7 +576,7 @@
             body { background: #fff !important; }
             body::before, body::after { display: none; }
 
-            .page, footer, .pdf-btn, .theme-btn { display: none !important; }
+            .page, footer, .pdf-btn, .theme-icon { display: none !important; }
 
             #print-cv {
                 display: block;
@@ -1065,11 +1076,11 @@
 
 </div>
 
-<button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
-    <svg id="theme-icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<button class="theme-icon" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
+    <svg id="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
     </svg>
-    <svg id="theme-icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+    <svg id="theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
         <circle cx="12" cy="12" r="5"/>
         <line x1="12" y1="1" x2="12" y2="3"/>
         <line x1="12" y1="21" x2="12" y2="23"/>
@@ -1080,7 +1091,6 @@
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
     </svg>
-    <span id="theme-label">Light</span>
 </button>
 
 <button class="pdf-btn" onclick="window.print()">
