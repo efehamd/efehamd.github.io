@@ -114,7 +114,7 @@
             padding: 28px;
             position: relative;
             overflow: hidden;
-            transition: border-color 0.3s, transform 0.15s, box-shadow 0.3s, background 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
             cursor: default;
             /* 3d perspective base */
             transform-style: preserve-3d;
@@ -159,6 +159,10 @@
             z-index: 0;
         }
         .card:hover::after { opacity: 1; }
+
+        .card.tilt-leaving {
+            transition: border-color 0.3s, transform 0.35s ease-out, box-shadow 0.3s, background 0.3s;
+        }
 
         /* ── GRID SPANS ── */
         .col-12 { grid-column: span 12; }
@@ -1419,8 +1423,8 @@
         });
 
         (function animate() {
-            rx += (mx - rx) * 0.1;
-            ry += (my - ry) * 0.1;
+            rx += (mx - rx) * 0.18;
+            ry += (my - ry) * 0.18;
             ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
             requestAnimationFrame(animate);
         })();
@@ -1430,28 +1434,34 @@
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
+        let tiltRaf = null;
+        let lx = 0, ly = 0, lRect = null;
+
+        card.addEventListener('mouseenter', () => {
+            card.classList.remove('tilt-leaving');
+        });
+
         card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const cx = rect.width / 2;
-            const cy = rect.height / 2;
-
-            // Tilt: max ±8deg
-            const rotY = ((x - cx) / cx) * 8;
-            const rotX = -((y - cy) / cy) * 6;
-
-            card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.015,1.015,1.015)`;
-
-            // Cursor light position as % for CSS var
-            const px = (x / rect.width) * 100;
-            const py = (y / rect.height) * 100;
-            card.style.setProperty('--mx', `${px}%`);
-            card.style.setProperty('--my', `${py}%`);
+            lRect = card.getBoundingClientRect();
+            lx = e.clientX - lRect.left;
+            ly = e.clientY - lRect.top;
+            if (tiltRaf) return;
+            tiltRaf = requestAnimationFrame(() => {
+                tiltRaf = null;
+                const cx = lRect.width / 2, cy = lRect.height / 2;
+                const rotY = ((lx - cx) / cx) * 8;
+                const rotX = -((ly - cy) / cy) * 6;
+                card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.015,1.015,1.015)`;
+                card.style.setProperty('--mx', `${(lx / lRect.width) * 100}%`);
+                card.style.setProperty('--my', `${(ly / lRect.height) * 100}%`);
+            });
         });
 
         card.addEventListener('mouseleave', () => {
+            if (tiltRaf) { cancelAnimationFrame(tiltRaf); tiltRaf = null; }
+            card.classList.add('tilt-leaving');
             card.style.transform = '';
+            setTimeout(() => card.classList.remove('tilt-leaving'), 350);
         });
     });
 </script>
